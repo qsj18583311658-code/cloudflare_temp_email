@@ -24,7 +24,7 @@ jobs:
       - uses: pnpm/action-setup@v5
         name: Install pnpm
         with:
-          version: 10
+          version: 10.17.1
           run_install: false
 
       - name: Deploy Frontend for ${{ github.ref_name }}
@@ -32,6 +32,7 @@ jobs:
         run: |
           cd frontend/
           echo "${{ secrets.FRONTEND_ENV }}" > .env.prod
+          pnpm config set --location=project --json onlyBuiltDependencies '["core-js-pure","esbuild","sharp","workerd"]'
           pnpm install --no-frozen-lockfile
           export frontend_branch="${{ secrets.FRONTEND_BRANCH }}"
           if [ -n "$frontend_branch" ]; then
@@ -61,7 +62,7 @@ jobs:
       - uses: pnpm/action-setup@v5
         name: Install pnpm
         with:
-          version: 10
+          version: 10.17.1
           run_install: false
 
       - name: Deploy Telegram Frontend for ${{ github.ref_name }}
@@ -69,6 +70,7 @@ jobs:
         run: |
           cd frontend/
           echo "${{ secrets.FRONTEND_ENV }}" > .env.prod
+          pnpm config set --location=project --json onlyBuiltDependencies '["core-js-pure","esbuild","sharp","workerd"]'
           pnpm install --no-frozen-lockfile
           export frontend_branch="${{ secrets.FRONTEND_BRANCH }}"
           if [ -n "$frontend_branch" ]; then
